@@ -291,6 +291,10 @@ class Planner {
       static bool abort_on_endstop_hit;
     #endif
 
+	#if ENABLED(NOTIFY_DISCARD)
+	  static uint8_t discarded_block_count = 0;
+	#endif
+
   private:
 
     /**
@@ -802,8 +806,12 @@ class Planner {
      * NB: There MUST be a current block to call this function!!
      */
     FORCE_INLINE static void discard_current_block() {
-      if (has_blocks_queued())
+      if (has_blocks_queued()) {
         block_buffer_tail = next_block_index(block_buffer_tail);
+		#if ENABLED(NOTIFY_DISCARD)
+		  ++discarded_block_count;
+		#endif
+	  }
     }
 
     #if HAS_SPI_LCD

@@ -203,6 +203,10 @@ millis_t max_inactive_time, // = 0
   I2CPositionEncodersMgr I2CPEM;
 #endif
 
+#if ENABLED(NOTIFY_DISCARD)
+  uint8_t notified_discarded_block_count = 0;
+#endif
+
 /**
  * ***************************************************************************
  * ******************************** FUNCTIONS ********************************
@@ -1166,6 +1170,13 @@ void loop() {
       }
 
     #endif // SDSUPPORT
+
+	#if ENABLED(NOTIFY_DISCARD)
+	  while (notified_discarded_block_count != planner.discarded_block_count) {
+		  ++notified_discarded_block_count;
+		  SERIAL_ECHOLN(DISCARD_MSG);
+	  }
+	#endif
 
     if (queue.length < BUFSIZE) queue.get_available_commands();
     queue.advance();

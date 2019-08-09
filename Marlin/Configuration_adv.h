@@ -1397,6 +1397,9 @@
 // Some clients will have this feature soon. This could make the NO_TIMEOUTS unnecessary.
 //#define ADVANCED_OK
 
+// Some hosts rely on a message whenever a planner block is discarded, i.e. a command has finished
+#define NOTIFY_DISCARD
+
 // Printrun may have trouble receiving long strings all at once.
 // This option inserts short delays between lines of serial output.
 #define SERIAL_OVERRUN_PROTECTION
